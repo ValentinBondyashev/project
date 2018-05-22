@@ -1,1 +1,9 @@
+.wrap_card-list{
+    display: flex;
+    justify-content: flex-start;
+}
 
+.card_list{
+    background: #cecece;
+    height: 100wh;
+}

@@ -1,49 +1,53 @@
 import React, { Component } from 'react';
-import { Card } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as cardActions from './actions/card';
 import { bindActionCreators } from 'redux';
+import Popup from "reactjs-popup";
+
+import CardList from './CardList';
 
 import './App.css';
-/*const data = {
-  lanes: [
-    {
-      id: 'lane1',
-      title: 'Planned Tasks',
-      cards: 
-    },
-    {
-      id: 'lane2',
-      title: 'Completed',
-      cards: []
-    },
-    
-  ]
-}
-*/
-
 
 
 class App extends Component {
   render() {
-    const { cards, addCard, removeCard, changeTitle } = this.props;
-    const card = {id: 'Card1', title: '', description: ''};
-    return (
+    const { lanes, addLane, removeCard, removeLane, changeCard } = this.props;
+
+    let id = lanes.length;
+
+    const newLane = {
+		  id: id,
+		  title: 'Your task',
+		  cards:
+		   [
+			   	{id: 0, title: 'Task 1', description: 'Your text'},
+				  ]
+    };  
+
+  return (
       <div className="App">
-      <button onClick={addCard.bind(this, {card})}>add</button>
-          <Card.Group>{
-            cards.map( card => {
-                return (
-                  <Card key={card.id} >
-                    <button onClick={removeCard.bind(this, card.id)}>Remove</button>
-                    <Card.Content>
-                      <Card.Header onClick={changeTitle.bind(this, 'dsd')}>{card.title}</Card.Header>
-                      <Card.Meta>{card.title}</Card.Meta>
-                    </Card.Content>
-                  </Card>
-                )
-            })}
-          </Card.Group>
+      <button onClick={addLane.bind(this, newLane)}>add</button>
+          <div className="wrap_card-list">{
+            lanes.map( lane => (
+              <div className="card_list" key={lane.id}>
+                
+                <h2>{lane.title}<button onClick={removeLane.bind(this, lane.id)}>Remove</button></h2>
+                <CardList  cards={lane.cards} id={lane.id} remove={removeCard} change={changeCard} />
+                <Popup trigger={<button>Add card</button>} position="right center">
+                  <form onSubmit={this.handleSubmit}>
+                    <label>
+                      Head:
+                      <input type="text"  />
+                      Text:
+                      <input type="text"  />
+                    </label>
+                    <input type="submit" value="Submit" />
+                  </form>
+                </Popup>
+              </div>  
+            )
+            )}
+          </div>
       </div>
     );
   }
@@ -52,7 +56,7 @@ class App extends Component {
 
 
 const mapStateToProps = ({cards}) => ({
-  cards: cards.cards
+  lanes: cards.lanes
 });
   
 const mapDispatchToPtops = dispatch => ({
