@@ -3,9 +3,9 @@ export const addLane = (lane) => ({
 	payload: lane
 });
 
-export const addCard = (card) => ({
+export const addCard = (laneId, cardId, head, task) => ({
 	type: 'ADD_CARD',
-	payload: card
+	payload: {laneId, cardId, head, task}
 });
 
 export const removeCard = (id, i) => ({
@@ -19,8 +19,13 @@ export const removeLane = (lane) => ({
 	payload: lane
 });
 
-export const changeCard = (id, head, text) => ({
+export const changeCard = (laneId,id, head, text) => ({
 	type: 'CHANGE_CARD',
-	payload: {id, head, text}
+	payload: {laneId,id, head, text}
+});
+
+export const changeNameLane = (laneId ,head) => ({
+	type: 'CHANGE_NAME_LANE',
+	payload: {laneId, head}
 });
 
